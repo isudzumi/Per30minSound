@@ -22,11 +22,12 @@ namespace playSound
     /// </summary>
     public partial class MainWindow : Window
     {
-        private System.Media.SoundPlayer play = null;
-
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = CommonFunction.FileName;
+
             this.StateChanged += new EventHandler(playSound_StateChanged);
         }
 
@@ -40,36 +41,27 @@ namespace playSound
             if (result == true)
             {
                 fileName.Text = dialog.FileName;
+                CommonFunction.FileName = fileName.Text;
             }
         }
 
         private void setButton_Click(object sender, RoutedEventArgs e)
         {
-            String file = fileName.Text;
-            if(file != "")
+            if (CommonFunction.FileName != "")
             {
-                playAudioFile(file);
+                if(CommonFunction.playSound == null)
+                {
+                    playAudioFile();
+                } else
+                {
+                    stopAudioFile();
+                }
+                
             } else
             {
                 MessageBox.Show("ファイルを指定して下さい");
             }
             
-        }
-
-        private void playAudioFile(String file)
-        {
-            play = new System.Media.SoundPlayer(file);
-            play.Play();
-        }
-
-        private void stopAudioFile()
-        {
-            if(play != null)
-            {
-                play.Stop();
-                play.Dispose();
-                play = null;
-            }
         }
 
         private void playSound_StateChanged(object sender, EventArgs e)
@@ -78,6 +70,20 @@ namespace playSound
             {
                 this.Hide();
             }
+        }
+
+        private void playAudioFile()
+        {
+            CommonFunction.playAudioFile();
+            setButton.Content = "終了";
+            setButton.Foreground = Brushes.Red;
+        }
+
+        private void stopAudioFile()
+        {
+            CommonFunction.stopAudioFile();
+            setButton.Content = "再生";
+            setButton.Foreground = Brushes.Black;
         }
     }
 }
