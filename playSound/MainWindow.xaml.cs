@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
 
 namespace playSound
 {
@@ -22,11 +23,13 @@ namespace playSound
     /// </summary>
     public partial class MainWindow : Window
     {
+        BindData bind = new BindData();
+
         public MainWindow()
         {
             InitializeComponent();
 
-            DataContext = CommonFunction.FileName;
+            mainGrid.DataContext = bind;
 
             this.StateChanged += new EventHandler(playSound_StateChanged);
         }
@@ -40,8 +43,7 @@ namespace playSound
             bool? result = dialog.ShowDialog();
             if (result == true)
             {
-                fileName.Text = dialog.FileName;
-                CommonFunction.FileName = fileName.Text;
+                bind.FileName = dialog.FileName;
             }
         }
 
@@ -49,13 +51,7 @@ namespace playSound
         {
             if (CommonFunction.FileName != "")
             {
-                if(CommonFunction.playSound == null)
-                {
-                    playAudioFile();
-                } else
-                {
-                    stopAudioFile();
-                }
+                bind.controlAudioFile();
                 
             } else
             {
@@ -71,19 +67,55 @@ namespace playSound
                 this.Hide();
             }
         }
+    }
 
-        private void playAudioFile()
+    public class BindData : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(String text)
         {
-            CommonFunction.playAudioFile();
-            setButton.Content = "終了";
-            setButton.Foreground = Brushes.Red;
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(text));
+            }
         }
 
-        private void stopAudioFile()
+        private string _status = CommonFunction.playSound == null ? "再生" : "終了";
+
+        public string FileName
         {
-            CommonFunction.stopAudioFile();
-            setButton.Content = "再生";
-            setButton.Foreground = Brushes.Black;
+            get { return CommonFunction.FileName; }
+            set
+            {
+                CommonFunction.FileName = value;
+                OnPropertyChanged(nameof(FileName));
+            }
+        }
+
+        public string Status
+        {
+            get { return this._status; }
+            set
+            {
+                this._status = value;
+                OnPropertyChanged(nameof(Status));
+            }
+        }
+
+        public void controlAudioFile()
+        {
+            var isPlay = CommonFunction.playSound;
+            if(isPlay == null)
+            {
+                CommonFunction.playAudioFile();
+                Status = "終了";
+            }
+            else
+            {
+                CommonFunction.stopAudioFile();
+                Status = "再生";
+            }
         }
     }
+
 }
