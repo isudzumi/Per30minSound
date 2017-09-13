@@ -17,6 +17,7 @@ using System.ComponentModel;
 namespace playSound
 {
     using System.Windows;
+    using System.IO;
     using Microsoft.Win32;
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
@@ -37,7 +38,8 @@ namespace playSound
         private void selectButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "Wavファイル(.wav)|*.wav";
+            dialog.Filter = "WAVファイル|*.wav";
+            dialog.InitialDirectory = Directory.GetCurrentDirectory();
             dialog.CheckFileExists = true;
             dialog.CheckPathExists = true;
             bool? result = dialog.ShowDialog();
