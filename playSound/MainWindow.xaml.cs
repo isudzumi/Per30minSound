@@ -113,7 +113,7 @@ namespace playSound
             {
                 Status = offPLAY;
                 Task.Run(() => {
-                    var task = CommonFunction.playAudioAsync();
+                    var task = CommonFunction.PlayAudioAsync();
                     if(task.Result)
                     {
                         Status = onPLAY;
@@ -122,7 +122,7 @@ namespace playSound
             }
             else
             {
-                CommonFunction.stopAudioFile();
+                CommonFunction.StopAudioFile();
                 Status = onPLAY;
             }
         }

@@ -17,6 +17,7 @@ namespace playSound
         public NotifyIconWrapper()
         {
             InitializeComponent();
+            Task.Run(() => CommonFunction.PlayAudioAsync());
 
             this.toolStripMenuItem_Open.Click += this.toolStripMenuItem_Open_Click;
             this.toolStripMenuItem_Exit.Click += this.toolStripMenuItem_Exit_Click;
