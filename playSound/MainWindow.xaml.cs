@@ -74,6 +74,8 @@ namespace playSound
     public class BindData : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        private const string onPLAY = "再生";
+        private const string offPLAY = "実行中";
         private void OnPropertyChanged(String text)
         {
             if (PropertyChanged != null)
@@ -82,7 +84,7 @@ namespace playSound
             }
         }
 
-        private string _status = CommonFunction.playSound == null ? "再生" : "終了";
+        private string _status = CommonFunction.playSound == null ? onPLAY : offPLAY;
 
         public string FileName
         {
@@ -109,13 +111,19 @@ namespace playSound
             var isPlay = CommonFunction.playSound;
             if(isPlay == null)
             {
-                CommonFunction.playAudioFile();
-                Status = "終了";
+                Status = offPLAY;
+                Task.Run(() => {
+                    var task = CommonFunction.playAudioAsync();
+                    if(task.Result)
+                    {
+                        Status = onPLAY;
+                    }
+                });
             }
             else
             {
                 CommonFunction.stopAudioFile();
-                Status = "再生";
+                Status = onPLAY;
             }
         }
     }

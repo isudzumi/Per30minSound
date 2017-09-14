@@ -8,6 +8,7 @@ namespace playSound
 {
     public static class CommonFunction
     {
+        private const Int32 SLEEP_TIME = 1800000;
         public static string FileName { get; set; } = "";
         public static System.Media.SoundPlayer playSound = null;
 
@@ -25,6 +26,21 @@ namespace playSound
                 playSound.Dispose();
                 playSound = null;
             }
+        }
+
+        public static async Task<bool> playAudioAsync()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                await Task.Run(() => {
+                    playAudioFile();
+                    if (i < 2)
+                    {
+                        System.Threading.Thread.Sleep(SLEEP_TIME);
+                    }
+                });
+            }
+            return true;
         }
     }
 }
