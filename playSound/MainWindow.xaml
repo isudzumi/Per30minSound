@@ -12,6 +12,14 @@
         <TextBox x:Name="fileName" Margin="94,64,98,0" TextWrapping="Wrap" Background="White" Height="20" VerticalAlignment="Top" Width="327" Text="{Binding FileName, Mode=OneWay}" d:DataContext="{d:DesignInstance {x:Type local:BindData}}" />
         <Button x:Name="selectButton" Content="選択" Margin="0,64,21,0" RenderTransformOrigin="0.489,0.24" Click="selectButton_Click" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="77"/>
         <Button x:Name="setButton" Content="{Binding Status, Mode=TwoWay}" Margin="0,102,23,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" RenderTransformOrigin="0.37,0.053" Click="setButton_Click" HorizontalAlignment="Right" Width="90" d:DataContext="{d:DesignInstance {x:Type local:BindData}}" />
+        <Menu Height="19" VerticalAlignment="Top">
+            <MenuItem x:Name="menuFile" Header="ファイル(_F)">
+                <MenuItem x:Name="menuQuit" Header="終了する(_Q)" Click="menuQuit_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="menuHelp" Header="ヘルプ(_H)">
+                <MenuItem x:Name="menuInfo" Header="バージョン情報"/>
+            </MenuItem>
+        </Menu>
 
     </Grid>
 </Window>

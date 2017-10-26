@@ -77,6 +77,11 @@ namespace playSound
                 this.Hide();
             }
         }
+
+        private void menuQuit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 
     public class BindData : INotifyPropertyChanged
@@ -122,7 +127,7 @@ namespace playSound
                 Status = offPLAY;
                 Task.Run(() => {
                     var task = CommonFunction.PlayAudioAsync();
-                    if(task.Result)
+                    if(task.IsCompleted)
                     {
                         Status = onPLAY;
                     }

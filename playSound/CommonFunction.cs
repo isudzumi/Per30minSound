@@ -46,7 +46,7 @@ namespace playSound
             }
         }
 
-        public static async Task<bool> PlayAudioAsync()
+        public static async Task PlayAudioAsync()
         {
             LoadWavFile();
             for (int i = 0; i < 3; i++)
@@ -59,7 +59,6 @@ namespace playSound
                     }
                 });
             }
-            return true;
         }
     }
 }

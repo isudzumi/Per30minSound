@@ -17,15 +17,16 @@ namespace playSound
         public NotifyIconWrapper()
         {
             InitializeComponent();
-            var task = Task.Run(() => CommonFunction.PlayAudioAsync());
+            Task.Run(() => PlayAsync());
             
             this.toolStripMenuItem_Open.Click += this.toolStripMenuItem_Open_Click;
             this.toolStripMenuItem_Exit.Click += this.toolStripMenuItem_Exit_Click;
+        }
 
-            if(task.Result)
-            {
-                Application.Current.Shutdown();
-            }
+        private async Task PlayAsync()
+        {
+            await CommonFunction.PlayAudioAsync();
+            Environment.Exit(0);
         }
 
         public NotifyIconWrapper(IContainer container)
