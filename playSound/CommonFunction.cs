@@ -48,10 +48,10 @@ namespace playSound
 
         public static async Task<bool> PlayAudioAsync()
         {
+            LoadWavFile();
             for (int i = 0; i < 3; i++)
             {
                 await Task.Run(() => {
-                    LoadWavFile();
                     PlayAudioFile();
                     if (i < 2)
                     {

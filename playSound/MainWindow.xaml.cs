@@ -24,9 +24,17 @@ namespace playSound
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private static MainWindow _Instance = new MainWindow();
+
+        public static MainWindow GetInstance()
+        {
+            return _Instance;
+        }
+
         BindData bind = new BindData();
 
-        public MainWindow()
+        private MainWindow()
         {
             InitializeComponent();
 

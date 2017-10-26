@@ -18,7 +18,7 @@ namespace playSound
         {
             InitializeComponent();
             Task.Run(() => CommonFunction.PlayAudioAsync());
-
+            
             this.toolStripMenuItem_Open.Click += this.toolStripMenuItem_Open_Click;
             this.toolStripMenuItem_Exit.Click += this.toolStripMenuItem_Exit_Click;
         }
@@ -32,7 +32,7 @@ namespace playSound
 
         private void toolStripMenuItem_Open_Click(object sender, EventArgs e)
         {
-            var window = new MainWindow();
+            var window = MainWindow.GetInstance();
             window.Show();
         }
 
@@ -43,7 +43,7 @@ namespace playSound
 
         private void notifyIcon1_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            var window = new MainWindow();
+            var window = MainWindow.GetInstance();
             window.Show();
         }
     }
