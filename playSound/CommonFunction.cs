@@ -10,7 +10,7 @@ namespace playSound
 {
     public static class CommonFunction
     {
-        private const Int32 SLEEP_TIME = 1800000;
+        private const Int32 SLEEP_TIME = 240000;//1800000;
         public static DateTime playTime { get; set; } = DateTime.Now;
         public static string FileName { get; set; } = "";
         public static System.Media.SoundPlayer playSound = null;
