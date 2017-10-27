@@ -21,6 +21,7 @@ namespace playSound
             
             this.toolStripMenuItem_Open.Click += this.toolStripMenuItem_Open_Click;
             this.toolStripMenuItem_Exit.Click += this.toolStripMenuItem_Exit_Click;
+            this.toolStripMenuItem_VersionInfo.Click += this.toolStripMenuItem_VersionInfo_Click;
         }
 
         private async Task PlayAsync()
@@ -51,6 +52,12 @@ namespace playSound
         {
             var window = MainWindow.GetInstance();
             window.Show();
+        }
+
+        private void toolStripMenuItem_VersionInfo_Click(object sender, EventArgs e)
+        {
+            var dialog = new VersionInfoDialog();
+            dialog.Show();
         }
     }
 }

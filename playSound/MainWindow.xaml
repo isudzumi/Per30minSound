@@ -17,7 +17,7 @@
                 <MenuItem x:Name="menuQuit" Header="終了する(_Q)" Click="menuQuit_Click"/>
             </MenuItem>
             <MenuItem x:Name="menuHelp" Header="ヘルプ(_H)">
-                <MenuItem x:Name="menuInfo" Header="バージョン情報"/>
+                <MenuItem x:Name="menuInfo" Header="バージョン情報" Click="menuInfo_Click"/>
             </MenuItem>
         </Menu>
 

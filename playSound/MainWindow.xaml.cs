@@ -82,6 +82,12 @@ namespace playSound
         {
             Application.Current.Shutdown();
         }
+
+        private void menuInfo_Click(object sender, RoutedEventArgs e)
+        {
+            VersionInfoDialog dialog = new VersionInfoDialog();
+            dialog.Show();
+        }
     }
 
     public class BindData : INotifyPropertyChanged
