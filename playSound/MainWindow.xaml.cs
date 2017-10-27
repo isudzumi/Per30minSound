@@ -25,16 +25,9 @@ namespace playSound
     public partial class MainWindow : Window
     {
 
-        private static MainWindow _Instance = new MainWindow();
-
-        public static MainWindow GetInstance()
-        {
-            return _Instance;
-        }
-
         BindData bind = new BindData();
 
-        private MainWindow()
+        public MainWindow()
         {
             InitializeComponent();
 
@@ -103,8 +96,6 @@ namespace playSound
             }
         }
 
-        private string _status = CommonFunction.playSound == null ? onPLAY : offPLAY;
-
         public string FileName
         {
             get { return CommonFunction.FileName; }
@@ -115,6 +106,7 @@ namespace playSound
             }
         }
 
+        private string _status = CommonFunction.playSound == null ? onPLAY : offPLAY;
         public string Status
         {
             get { return this._status; }
@@ -125,17 +117,30 @@ namespace playSound
             }
         }
 
+        private Brush _fontColor = CommonFunction.playSound == null ? Brushes.Black : Brushes.Red;
+        public Brush FontColor
+        {
+            get { return this._fontColor; }
+            set
+            {
+                this._fontColor = value;
+                OnPropertyChanged(nameof(FontColor));
+            }
+        }
+
         public void controlAudioFile()
         {
             var isPlay = CommonFunction.playSound;
             if(isPlay == null)
             {
                 Status = offPLAY;
+                FontColor = Brushes.Red;
                 Task.Run(() => {
                     var task = CommonFunction.PlayAudioAsync();
                     if(task.IsCompleted)
                     {
                         Status = onPLAY;
+                        FontColor = Brushes.Black;
                     }
                 });
             }
@@ -143,6 +148,7 @@ namespace playSound
             {
                 CommonFunction.StopAudioFile();
                 Status = onPLAY;
+                FontColor = Brushes.Black;
             }
         }
     }

@@ -36,11 +36,28 @@ namespace playSound
 
             InitializeComponent();
         }
+        private static MainWindow _instance = null;
+        public static MainWindow StatusMainWindow
+        {
+            get
+            {
+                if (_instance == null || !_instance.IsLoaded)
+                {
+                    _instance = new MainWindow();
+                }
+                return _instance;
+            }
+        }
+
+        private static void openMainWindow()
+        {
+            var window = StatusMainWindow;
+            window.Show();
+        }
 
         private void toolStripMenuItem_Open_Click(object sender, EventArgs e)
         {
-            var window = MainWindow.GetInstance();
-            window.Show();
+            openMainWindow();
         }
 
         private void toolStripMenuItem_Exit_Click(object sender, EventArgs e)
@@ -50,8 +67,7 @@ namespace playSound
 
         private void notifyIcon1_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            var window = MainWindow.GetInstance();
-            window.Show();
+            openMainWindow();
         }
 
         private void toolStripMenuItem_VersionInfo_Click(object sender, EventArgs e)
