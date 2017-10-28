@@ -49,19 +49,6 @@ namespace playSound
             }
         }
 
-        private static VersionInfoDialog infoDialog;
-        public static VersionInfoDialog GetInfoDialog
-        {
-            get
-            {
-                if (infoDialog == null || !infoDialog.IsLoaded)
-                {
-                    infoDialog = new VersionInfoDialog();
-                }
-                return infoDialog;
-            }
-        }
-
         private static void openMainWindow()
         {
             var window = StatusMainWindow;
@@ -85,8 +72,12 @@ namespace playSound
 
         private void toolStripMenuItem_VersionInfo_Click(object sender, EventArgs e)
         {
-            var dialog = GetInfoDialog;
-            dialog.Show();
+            var infoDialog = VersionInfoDialog._instance;
+            if (infoDialog == null || !infoDialog.IsLoaded)
+            {
+                var dialog = VersionInfoDialog.GetInstance;
+                dialog.Show();
+            }
         }
     }
 }

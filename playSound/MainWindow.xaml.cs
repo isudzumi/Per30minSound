@@ -27,19 +27,6 @@ namespace playSound
 
         BindData bind = new BindData();
 
-        private static VersionInfoDialog infoDialog;
-        public static VersionInfoDialog GetInfoDialog
-        {
-            get
-            {
-                if (infoDialog==null || !infoDialog.IsLoaded)
-                {
-                    infoDialog = new VersionInfoDialog();
-                }
-                return infoDialog;
-            }
-        }
-
         public MainWindow()
         {
             InitializeComponent();
@@ -91,8 +78,12 @@ namespace playSound
 
         private void menuInfo_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = GetInfoDialog;
-            dialog.Show();
+            var infoDialog = VersionInfoDialog._instance;
+            if (infoDialog == null || !infoDialog.IsLoaded)
+            {
+                var dialog = VersionInfoDialog.GetInstance;
+                dialog.Show();
+            }
         }
     }
 

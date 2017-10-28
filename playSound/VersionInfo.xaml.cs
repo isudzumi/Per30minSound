@@ -19,7 +19,21 @@ namespace playSound
     /// </summary>
     public partial class VersionInfoDialog : Window
     {
-        public VersionInfoDialog()
+        public static VersionInfoDialog _instance;
+        public static VersionInfoDialog GetInstance
+        {
+            get
+            {
+                if (_instance == null || !_instance.IsLoaded)
+                {
+                    _instance = new VersionInfoDialog();
+                }
+                return _instance;
+            }
+            
+        }
+
+        private VersionInfoDialog()
         {
             InitializeComponent();
         }
