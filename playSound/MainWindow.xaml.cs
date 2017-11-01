@@ -122,7 +122,7 @@ namespace playSound
             }
         }
 
-        private string _status = CommonFunction.playSound == null ? onPLAY : offPLAY;
+        private string _status = offPLAY;
         public string Status
         {
             get { return this._status; }
@@ -133,7 +133,7 @@ namespace playSound
             }
         }
 
-        private Brush _fontColor = CommonFunction.playSound == null ? Brushes.Black : Brushes.Red;
+        private Brush _fontColor = Brushes.Red;
         public Brush FontColor
         {
             get { return this._fontColor; }
@@ -144,7 +144,7 @@ namespace playSound
             }
         }
 
-        private string _txtTime = CommonFunction.runningTime.ToString(@"mm\:ss");
+        private string _txtTime = CommonFunction.StartTime.ToString(@"mm\:ss");
         public string TxtTimer
         {
             get { return this._txtTime; }

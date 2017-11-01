@@ -12,10 +12,12 @@ namespace playSound
     public static class CommonFunction
     {
         private const Int32 SLEEP_TIME = 1800000;
-        public static DateTime runningTime { get; set; } = new DateTime().AddMilliseconds(SLEEP_TIME);
-        public static DateTime StartTime { get; set; } = DateTime.Now;
-        public static string FileName { get; set; } = "";
+        private static BindData bind = BindData.GetBindDataInstance;
+        public static DateTime StartTime { get; set; } = new DateTime().AddMilliseconds(SLEEP_TIME);
+        private static DateTime RestTime { get; set; } = StartTime;
         public static Timer Timer = new Timer(new TimerCallback(Timer_Tick));
+
+        public static string FileName { get; set; } = "";
         public static System.Media.SoundPlayer playSound = null;
 
         private static void LoadWavFile()
@@ -34,20 +36,18 @@ namespace playSound
         {
             if (FileName != "")
             {
-
                 playSound = new System.Media.SoundPlayer(FileName);
-
                 playSound.Play();
 
+                RestTime = StartTime;
+                Timer.Change(0, 1000);
             }
         }
 
         private static void Timer_Tick(object sender)
         {
-            var elapsedTime = DateTime.Now.Subtract(StartTime);
-            var restTime = runningTime.Subtract(elapsedTime);
-            var bind = BindData.GetBindDataInstance;
-            bind.TxtTimer = restTime.ToString(@"mm\:ss");
+            RestTime = RestTime.AddSeconds(-1);
+            bind.TxtTimer = RestTime.ToString(@"mm\:ss");
         }
 
         public static void StopAudioFile()
@@ -57,6 +57,10 @@ namespace playSound
                 playSound.Stop();
                 playSound.Dispose();
                 playSound = null;
+
+                Timer.Change(Timeout.Infinite, Timeout.Infinite);
+                RestTime = StartTime;
+                bind.TxtTimer = StartTime.ToString(@"mm\:ss");
             }
         }
 
@@ -67,8 +71,6 @@ namespace playSound
             {
                 await Task.Run(() => {
                     PlayAudioFile();
-                    Timer.Change(0, 1000);
-                    StartTime = DateTime.Now;
                     if (i < 2)
                     {
                         Thread.Sleep(SLEEP_TIME);
