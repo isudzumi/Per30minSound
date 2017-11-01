@@ -11,8 +11,8 @@ namespace playSound
 {
     public static class CommonFunction
     {
-        private const Int32 SLEEP_TIME = 10000;//1800000;
-        private static BindData bind = BindData.GetBindDataInstance;
+        private const Int32 SLEEP_TIME = 1800000;
+        private static BindData bind;
         public static DateTime StartTime { get; set; } = new DateTime().AddMilliseconds(SLEEP_TIME);
         private static DateTime RestTime { get; set; } = StartTime;
         public static Timer Timer = new Timer(new TimerCallback(Timer_Tick));
@@ -40,6 +40,7 @@ namespace playSound
                 playSound.Play();
 
                 RestTime = StartTime;
+                bind = BindData.GetBindDataInstance;
                 Timer.Change(0, 1000);
             }
         }

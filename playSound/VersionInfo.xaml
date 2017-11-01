@@ -9,7 +9,7 @@
     <Grid Margin="0,0,4,3">
         <TextBlock Margin="27,10,0,0" TextWrapping="Wrap" RenderTransformOrigin="0.507,0.528" Height="113" VerticalAlignment="Top" HorizontalAlignment="Left" Width="244">
             <Bold FontSize="16px">playSound</Bold><LineBreak/>
-            バージョン：1.3.0<LineBreak/>
+            バージョン：1.3.1<LineBreak/>
             ライセンス：
             <Hyperlink NavigateUri="https://opensource.org/licenses/mit-license.php" Name="licenseLink"
                        ToolTip="{Binding ElementName=licenseLink, Path=NavigateUri}"

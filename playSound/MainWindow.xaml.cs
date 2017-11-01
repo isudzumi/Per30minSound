@@ -122,7 +122,7 @@ namespace playSound
             }
         }
 
-        private string _status = offPLAY;
+        private string _status = CommonFunction.playSound == null ? onPLAY : offPLAY;
         public string Status
         {
             get { return this._status; }
@@ -133,7 +133,7 @@ namespace playSound
             }
         }
 
-        private Brush _fontColor = Brushes.Red;
+        private Brush _fontColor = CommonFunction.playSound == null ? Brushes.Black : Brushes.Red;
         public Brush FontColor
         {
             get { return this._fontColor; }
