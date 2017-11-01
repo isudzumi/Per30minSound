@@ -11,7 +11,7 @@
         <Label x:Name="label" Content="音声ファイル" HorizontalAlignment="Left" Margin="21,61,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="fileName" Margin="94,64,98,0" TextWrapping="Wrap" Background="White" Height="20" VerticalAlignment="Top" Width="327" Text="{Binding FileName, Mode=OneWay}" d:DataContext="{d:DesignInstance {x:Type local:BindData}}" />
         <Button x:Name="selectButton" Content="選択" Margin="0,64,21,0" RenderTransformOrigin="0.489,0.24" Click="selectButton_Click" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="77"/>
-        <Button x:Name="setButton" Content="{Binding Status, Mode=TwoWay}" Foreground="{Binding Path=FontColor, Mode=TwoWay}" Margin="0,102,23,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" RenderTransformOrigin="0.37,0.053" Click="setButton_Click" HorizontalAlignment="Right" Width="90" d:DataContext="{d:DesignInstance {x:Type local:BindData}}" />
+        <Button x:Name="setButton" Content="{Binding Status, Mode=OneWay}" Foreground="{Binding Path=FontColor, Mode=OneWay}" Margin="0,102,23,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" RenderTransformOrigin="0.37,0.053" Click="setButton_Click" HorizontalAlignment="Right" Width="90" d:DataContext="{d:DesignInstance {x:Type local:BindData}}" />
         <Menu Height="19" VerticalAlignment="Top">
             <MenuItem x:Name="menuFile" Header="ファイル(_F)">
                 <MenuItem x:Name="menuQuit" Header="終了する(_Q)" Click="menuQuit_Click"/>
@@ -20,6 +20,9 @@
                 <MenuItem x:Name="menuInfo" Header="バージョン情報" Click="menuInfo_Click"/>
             </MenuItem>
         </Menu>
-
+        <TextBlock x:Name="txtTimer" HorizontalAlignment="Left" Margin="96,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="-2.516,-0.008" FontSize="14" Width="97" d:DataContext="{d:DesignInstance {x:Type local:BindData}}">
+            残り
+            <TextBlock Text="{Binding TxtTimer, Mode=OneWay}" FontWeight="Bold" FontSize="16"/>
+        </TextBlock>
     </Grid>
 </Window>

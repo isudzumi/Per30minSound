@@ -25,8 +25,8 @@ namespace playSound
     public partial class MainWindow : Window
     {
 
-        BindData bind = new BindData();
-
+        public BindData bind = BindData.GetBindDataInstance;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -89,15 +89,27 @@ namespace playSound
 
     public class BindData : INotifyPropertyChanged
     {
+        private BindData() { }
+
+        private static BindData _instance;
+        public static BindData GetBindDataInstance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new BindData();
+                }
+                return _instance;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private const string onPLAY = "再生";
         private const string offPLAY = "実行中";
         private void OnPropertyChanged(String text)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(text));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(text));
         }
 
         public string FileName
@@ -129,6 +141,17 @@ namespace playSound
             {
                 this._fontColor = value;
                 OnPropertyChanged(nameof(FontColor));
+            }
+        }
+
+        private string _txtTime = CommonFunction.runningTime.ToString(@"mm\:ss");
+        public string TxtTimer
+        {
+            get { return this._txtTime; }
+            set
+            {
+                this._txtTime = value;
+                OnPropertyChanged(nameof(TxtTimer));
             }
         }
 
