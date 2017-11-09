@@ -70,13 +70,26 @@ namespace playSound
             LoadWavFile();
             for (int i = 0; i < 3; i++)
             {
-                await Task.Run(() => {
-                    PlayAudioFile();
-                    if (i < 3)
+                if (i < 2)
+                {
+                    await Task.Run(() =>
                     {
-                        Thread.Sleep(SLEEP_TIME);
-                    }
-                });
+                        PlayAudioFile();
+                    });
+                    Thread.Sleep(SLEEP_TIME);
+                } else
+                {
+                    await Task.Run(() =>
+                    {
+                        if (FileName != "")
+                        {
+                            RestTime = StartTime;
+
+                            playSound = new System.Media.SoundPlayer(FileName);
+                            playSound.PlaySync();
+                        }
+                    });
+                }
             }
         }
     }
