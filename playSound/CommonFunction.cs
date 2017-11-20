@@ -11,7 +11,7 @@ namespace playSound
 {
     public static class CommonFunction
     {
-        private const Int32 SLEEP_TIME = 1800000;
+        private const Int32 SLEEP_TIME = 30000;//1800000;
         private static BindData bind;
         public static DateTime StartTime { get; set; } = new DateTime().AddMilliseconds(SLEEP_TIME);
         private static DateTime RestTime { get; set; } = StartTime;
@@ -72,22 +72,16 @@ namespace playSound
             {
                 if (i < 2)
                 {
-                    await Task.Run(() =>
+                    await Task.Run(async () =>
                     {
                         PlayAudioFile();
+                        await Task.Delay(SLEEP_TIME);
                     });
-                    Thread.Sleep(SLEEP_TIME);
                 } else
                 {
                     await Task.Run(() =>
                     {
-                        if (FileName != "")
-                        {
-                            RestTime = StartTime;
-
-                            playSound = new System.Media.SoundPlayer(FileName);
-                            playSound.PlaySync();
-                        }
+                        PlayAudioFile();
                     });
                 }
             }
