@@ -163,8 +163,12 @@ namespace playSound
                 Status = offPLAY;
                 FontColor = Brushes.Red;
                 Task.Run(() => {
-                    var task = CommonFunction.PlayAudioAsync();
-                    if(task.IsCompleted)
+                    var result = CommonFunction.PlayAudioAsync();
+                    if(result.Result == 0)
+                    {
+                        Environment.Exit(0);
+                    }
+                    else
                     {
                         Status = onPLAY;
                         FontColor = Brushes.Black;

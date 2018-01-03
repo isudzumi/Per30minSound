@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 
 namespace playSound
 {
     public static class CommonFunction
     {
-        private const Int32 SLEEP_TIME = 30000;//1800000;
+        private const Int32 SLEEP_TIME = 1800000;
+        private const int LOOP_COUNT = 3;
         private static BindData bind;
         public static DateTime StartTime { get; set; } = new DateTime().AddMilliseconds(SLEEP_TIME);
         private static DateTime RestTime { get; set; } = StartTime;
@@ -19,6 +17,9 @@ namespace playSound
 
         public static string FileName { get; set; } = "";
         public static System.Media.SoundPlayer playSound = null;
+
+        public static CancellationTokenSource cancellationToken = null;
+        public static CancellationToken token;
 
         private static void LoadWavFile()
         {
@@ -40,20 +41,34 @@ namespace playSound
                 playSound.Play();
 
                 RestTime = StartTime;
-                bind = BindData.GetBindDataInstance;
+                Timer.Change(0, 1000);
+            }
+        }
+
+        private static void PlayAudioFileAsync()
+        {
+            if (FileName != "")
+            {
+                playSound = new System.Media.SoundPlayer(FileName);
+                playSound.PlaySync();
+
+                RestTime = StartTime;
                 Timer.Change(0, 1000);
             }
         }
 
         private static void Timer_Tick(object sender)
         {
-            RestTime = RestTime.AddSeconds(-1);
-            bind.TxtTimer = RestTime.ToString(@"mm\:ss");
+            if (!RestTime.Equals(DateTime.MinValue))
+            {
+                RestTime = RestTime.AddSeconds(-1);
+                bind.TxtTimer = RestTime.ToString(@"mm\:ss");
+            }
         }
 
         public static void StopAudioFile()
         {
-            if (playSound != null)
+            if ((playSound != null) && (cancellationToken != null))
             {
                 playSound.Stop();
                 playSound.Dispose();
@@ -62,28 +77,40 @@ namespace playSound
                 Timer.Change(Timeout.Infinite, Timeout.Infinite);
                 RestTime = StartTime;
                 bind.TxtTimer = StartTime.ToString(@"mm\:ss");
+
+                cancellationToken.Cancel();
+                cancellationToken.Dispose();
             }
         }
 
-        public static async Task PlayAudioAsync()
+        public static async Task<int> PlayAudioAsync()
         {
             LoadWavFile();
-            for (int i = 0; i < 3; i++)
+            cancellationToken = new CancellationTokenSource();
+            token = cancellationToken.Token;
+            try
             {
-                if (i < 2)
+                bind = BindData.GetBindDataInstance;
+                for (int i = 0; i < LOOP_COUNT; i++)
                 {
-                    await Task.Run(async () =>
+                    if (i != (LOOP_COUNT - 1))
                     {
-                        PlayAudioFile();
-                        await Task.Delay(SLEEP_TIME);
-                    });
-                } else
-                {
-                    await Task.Run(() =>
+                        await Task.Run(async () =>
+                        {
+                            PlayAudioFile();
+                            await Task.Delay(SLEEP_TIME, token);
+                        });
+                    }
+                    else
                     {
-                        PlayAudioFile();
-                    });
+                        PlayAudioFileAsync();
+                    }
                 }
+                return 0;
+            }
+            catch (TaskCanceledException e)
+            {
+                return 1;
             }
         }
     }
